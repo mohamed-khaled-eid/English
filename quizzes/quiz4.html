@@ -302,11 +302,52 @@ function displayQuestions(containerId, questions) {
 }
 
 // ---------- دالة عرض الإجابة ----------
+
+
+// ---------- دالة عرض الإجابة (محدثة) ----------
 function showAnswer(btn, correctAnswer, explanation) {
   const answerDiv = btn.nextElementSibling;
-  answerDiv.style.display = "block";
-  answerDiv.innerHTML = `<p><strong>الإجابة الصحيحة:</strong> ${correctAnswer}</p>
-                         <p><em>${explanation}</em></p>`;
+  const parent = btn.parentElement;
+
+  let userAnswer = "";
+
+  // لو السؤال اختياري (radio)
+  const radio = parent.querySelector("input[type='radio']:checked");
+  if (radio) userAnswer = radio.nextSibling.textContent.trim();
+
+  // لو السؤال fill أو correct (input text)
+  const input = parent.querySelector("input[type='text']");
+  if (input) userAnswer = input.value.trim();
+
+  // لو السؤال essay (textarea)
+  const textarea = parent.querySelector("textarea");
+  if (textarea) userAnswer = textarea.value.trim();
+
+  // مقارنة الإجابة
+  const normalizedUser = userAnswer.toLowerCase();
+  const normalizedCorrect = correctAnswer.toLowerCase();
+
+  if (!userAnswer) {
+    answerDiv.style.display = "block";
+    answerDiv.innerHTML = `<p style="color: orange;"><strong>⚠️ من فضلك اكتب إجابتك الأول.</strong></p>`;
+    return;
+  }
+
+  if (normalizedUser === normalizedCorrect) {
+    answerDiv.style.display = "block";
+    answerDiv.innerHTML = `
+      <p style="color: green;"><strong>✅ إجابتك صحيحة!</strong></p>
+      <p><strong>الإجابة:</strong> ${correctAnswer}</p>
+      <p><em>${explanation}</em></p>
+    `;
+  } else {
+    answerDiv.style.display = "block";
+    answerDiv.innerHTML = `
+      <p style="color: red;"><strong>❌ إجابتك غلط.</strong></p>
+      <p><strong>الإجابة الصحيحة:</strong> ${correctAnswer}</p>
+      <p><em>${explanation}</em></p>
+    `;
+  }
 }
 
 // ---------- استدعاء عرض الأسئلة ----------
