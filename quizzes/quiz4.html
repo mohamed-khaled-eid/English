@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كويز الفصول</title>
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      direction: ltr;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #333;
+      color: white;
+    }
+    .tab {
+      padding: 15px 25px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: 0.3s;
+    }
+    .tab.active {
+      border-bottom: 3px solid #00bcd4;
+      background: #444;
+    }
+    .content {
+      display: none;
+      padding: 20px;
+      background: white;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .content.active {
+      display: block;
+    }
+    .question {
+      background: #f9f9f9;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    button {
+      background: #00bcd4;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0097a7;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .answer {
+      margin-top: 10px;
+      display: none;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tabs">
+    <div class="tab active" data-target="tab1">المستوى السهل</div>
+    <div class="tab" data-target="tab2">المستوى المتوسط</div>
+    <div class="tab" data-target="tab3">المستوى الصعب</div>
+  </div>
+
+  <!-- المستوى السهل -->
+  <div id="tab1" class="content active">
+    <div id="easyContainer"></div>
+  </div>
+
+  <!-- المستوى المتوسط -->
+  <div id="tab2" class="content">
+    <div id="mediumContainer"></div>
+  </div>
+
+  <!-- المستوى الصعب -->
+  <div id="tab3" class="content">
+    <div id="hardContainer"></div>
+  </div>
+
+  <script>
+    // ---------------- التبويبات -----------------
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".content");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.target).classList.add("active");
+      });
+    });
+
+    // ---------------- المصفوفات -----------------
+    // هتحط هنا الأسئلة بعدين
+    // const easyQuestions = [...]
+    // const mediumQuestions = [...]
+    // const hardQuestions = [...]
+
+
+
+
+const easyQuestions = [
+  // ---------- Multiple Choice Questions (30) ----------
+  { type: "mcq", question: "1. What is the correct form of the past continuous tense?", options: ["was/were + verb", "was/were + verb + ing", "verb + ed", "have + past participle"], answer: 1, explanation: "القاعدة الأساسية للماضي المستمر هي was/were + الفعل + ing." },
+  { type: "mcq", question: "2. Which sentence is correct?", options: ["I was watch TV.", "I were watching TV.", "I was watching TV.", "I watching was TV."], answer: 2, explanation: "الصحيح: I was watching TV." },
+  { type: "mcq", question: "3. Choose the correct negative form: 'She ____ sleeping.'", options: ["wasn't", "weren't", "didn't", "isn't"], answer: 0, explanation: "في النفي نستخدم wasn't مع المفرد: She wasn't sleeping." },
+  { type: "mcq", question: "4. Which auxiliary verb is used with 'they'?", options: ["was", "were", "did", "has"], answer: 1, explanation: "نستخدم were مع الضمير they." },
+  { type: "mcq", question: "5. Identify the correct question form: ____ you studying last night?", options: ["Was", "Were", "Did", "Do"], answer: 1, explanation: "مع you نستخدم were → Were you studying last night?" },
+  { type: "mcq", question: "6. I ____ reading when you called me.", options: ["was", "were", "am", "be"], answer: 0, explanation: "الفاعل I بياخد was → I was reading." },
+  { type: "mcq", question: "7. They ____ playing football at 6 pm yesterday.", options: ["was", "were", "are", "been"], answer: 1, explanation: "مع they نستخدم were → They were playing football." },
+  { type: "mcq", question: "8. What were you doing at 8 o’clock?", options: ["Past continuous", "Past simple", "Future simple", "Present perfect"], answer: 0, explanation: "السؤال ده في زمن الماضي المستمر لأنه يتحدث عن حدث كان جاريًا في الماضي." },
+  { type: "mcq", question: "9. Which of the following verbs cannot be used in past continuous?", options: ["believe", "play", "read", "walk"], answer: 0, explanation: "الفعل believe فعل حالة (stative) لا يُستخدم في المستمر." },
+  { type: "mcq", question: "10. Choose the correct WH-question: ____ was she doing?", options: ["What", "Where", "Why", "When"], answer: 0, explanation: "السؤال الكامل: What was she doing?" },
+  { type: "mcq", question: "11. The phone rang while I ____ dinner.", options: ["was cooking", "cooked", "have cooked", "am cooking"], answer: 0, explanation: "الماضي المستمر يُستخدم للفعل الأطول (was cooking)." },
+  { type: "mcq", question: "12. He ____ not working yesterday.", options: ["was", "wasn’t", "were", "did"], answer: 1, explanation: "في النفي نستخدم wasn’t مع he." },
+  { type: "mcq", question: "13. While they ____ football, it started to rain.", options: ["play", "playing", "were playing", "played"], answer: 2, explanation: "الصحيح: While they were playing football, it started to rain." },
+  { type: "mcq", question: "14. Which sentence is incorrect?", options: ["I was watching TV.", "They were eating dinner.", "He were reading.", "She was studying."], answer: 2, explanation: "الخطأ في He were reading → المفروض He was reading." },
+  { type: "mcq", question: "15. When do we use past continuous?", options: ["For actions happening now", "For future plans", "For actions in progress in the past", "For repeated actions"], answer: 2, explanation: "نستخدمه للتعبير عن فعل كان مستمرًا في وقت معين بالماضي." },
+  { type: "mcq", question: "16. Which tense is often used with past continuous?", options: ["Present simple", "Past simple", "Future simple", "Present perfect"], answer: 1, explanation: "الماضي البسيط يُستخدم غالبًا مع الماضي المستمر لبيان الحدث القصير." },
+  { type: "mcq", question: "17. While I ____ TV, my mom came home.", options: ["was watching", "watch", "watched", "am watching"], answer: 0, explanation: "was watching هو الماضي المستمر الصحيح." },
+  { type: "mcq", question: "18. Choose the correct sentence:", options: ["He was always complaining.", "He always was complaining.", "Was he always complaining.", "He was complaining always."], answer: 0, explanation: "الصحيح ترتيب الظرف بعد was → He was always complaining." },
+  { type: "mcq", question: "19. When she arrived, they ____ dinner.", options: ["have", "were having", "had", "are having"], answer: 1, explanation: "الفعل الجاري وقت وصولها → were having." },
+  { type: "mcq", question: "20. I ____ my homework when the lights went out.", options: ["did", "was doing", "do", "had done"], answer: 1, explanation: "كنت بعمل الواجب → was doing." },
+  { type: "mcq", question: "21. The kids ____ sleeping when I checked the room.", options: ["was", "were", "is", "been"], answer: 1, explanation: "الأطفال جمع → were sleeping." },
+  { type: "mcq", question: "22. We ____ to music all evening yesterday.", options: ["were listening", "listened", "are listening", "have listened"], answer: 0, explanation: "فعل مستمر في الماضي → were listening." },
+  { type: "mcq", question: "23. What ____ you doing at that time?", options: ["was", "were", "did", "do"], answer: 1, explanation: "الصحيح: What were you doing?" },
+  { type: "mcq", question: "24. She ____ reading a novel at 5 p.m.", options: ["was", "were", "has", "had"], answer: 0, explanation: "مع she نستخدم was → was reading." },
+  { type: "mcq", question: "25. They ____ working all night long.", options: ["was", "were", "are", "be"], answer: 1, explanation: "مع they → were working." },
+  { type: "mcq", question: "26. While I was walking home, I ____ an old friend.", options: ["meet", "met", "was meeting", "have met"], answer: 1, explanation: "الفعل القصير (met) في الماضي البسيط، والآخر (was walking) مستمر." },
+  { type: "mcq", question: "27. Which sentence uses both past simple and past continuous?", options: ["I was sleeping.", "I slept at 10.", "I was sleeping when he called.", "He called yesterday."], answer: 2, explanation: "الجملة الوحيدة اللي فيها الفعلين مع بعض." },
+  { type: "mcq", question: "28. The children ____ laughing when the teacher entered.", options: ["were", "was", "are", "been"], answer: 0, explanation: "الجمع → were laughing." },
+  { type: "mcq", question: "29. He ____ not paying attention in class.", options: ["was", "were", "is", "be"], answer: 0, explanation: "He was not paying attention." },
+  { type: "mcq", question: "30. While the teacher was talking, the students ____ notes.", options: ["take", "took", "were taking", "have taken"], answer: 2, explanation: "كانوا بياخدوا ملاحظات → were taking." },
+
+  // ---------- Essay Questions (3) ----------
+  { type: "essay", question: "31. Define the past continuous tense and its main use.", answer: "The past continuous tense is formed with was/were + verb + ing. It describes an action that was in progress at a specific time in the past.", explanation: "زمن الماضي المستمر يُستخدم للتعبير عن فعل كان جاريًا في وقت معين في الماضي." },
+  { type: "essay", question: "32. Write two examples of sentences in the past continuous tense.", answer: "1. I was reading a book at 8 o’clock.\n2. They were playing football yesterday evening.", explanation: "أمثلة توضح استخدام was/were + verb + ing." },
+  { type: "essay", question: "33. Compare past simple and past continuous with an example.", answer: "Past simple shows a finished action (e.g., I watched TV). Past continuous shows an ongoing action (e.g., I was watching TV when you called).", explanation: "الماضي البسيط = فعل انتهى، الماضي المستمر = فعل كان جاري في وقت معين." }
+];
+
+const mediumQuestions = [
+  // ---------- Multiple Choice Questions (30) ----------
+  { type: "mcq", question: "1. While I ____ dinner, the phone ____.", options: ["was cooking / rang", "cooked / was ringing", "was cooked / was ringing", "cook / rings"], answer: 0, explanation: "الماضي المستمر للفعل الطويل (was cooking)، والماضي البسيط للفعل القصير (rang)." },
+  { type: "mcq", question: "2. She ____ when her friend ____ at the door.", options: ["was studying / knocked", "studied / was knocking", "was study / knock", "studies / knocks"], answer: 0, explanation: "was studying → الفعل المستمر، knocked → الفعل القصير اللي قاطعه." },
+  { type: "mcq", question: "3. I ____ TV when my mother ____ home.", options: ["was watching / came", "watched / was coming", "am watching / comes", "was watch / come"], answer: 0, explanation: "كنت بتفرج لما أمي جات → was watching / came." },
+  { type: "mcq", question: "4. They ____ football when it ____ to rain.", options: ["were playing / started", "played / was starting", "were play / starts", "are playing / started"], answer: 0, explanation: "الحدث الطويل (were playing)، الحدث القصير (started to rain)." },
+  { type: "mcq", question: "5. When I ____ the accident, I ____ to help.", options: ["saw / was running", "was seeing / ran", "saw / ran", "was seeing / was running"], answer: 2, explanation: "الحدث الأول (saw) ماضي بسيط، بعده الفعل القصير (ran)." },
+  { type: "mcq", question: "6. While we ____ dinner, the lights ____ out.", options: ["were having / went", "had / were going", "were having / were going", "have / go"], answer: 0, explanation: "الحدث الجاري (were having)، والقصير (went out)." },
+  { type: "mcq", question: "7. What ____ you ____ when I ____ you?", options: ["were / doing / called", "was / do / call", "were / do / was calling", "did / doing / called"], answer: 0, explanation: "What were you doing when I called? → ماضي مستمر وماضي بسيط." },
+  { type: "mcq", question: "8. The students ____ when the bell ____.", options: ["were writing / rang", "wrote / was ringing", "was writing / ringed", "were write / rings"], answer: 0, explanation: "الطلاب كانوا بيكتبوا لما الجرس رن." },
+  { type: "mcq", question: "9. While I ____ to school, it ____ to rain.", options: ["was walking / began", "walked / was beginning", "was walk / began", "walk / begins"], answer: 0, explanation: "الفعل المستمر (was walking)، والفعل اللي قطعه (began)." },
+  { type: "mcq", question: "10. He ____ his leg while he ____ football.", options: ["broke / was playing", "was breaking / played", "was broke / play", "broke / played"], answer: 0, explanation: "كسر رجله أثناء اللعب → broke / was playing." },
+  { type: "mcq", question: "11. I ____ a shower when the phone ____.", options: ["was taking / rang", "took / was ringing", "was take / rang", "take / rings"], answer: 0, explanation: "كنت باخد شاور لما التليفون رن." },
+  { type: "mcq", question: "12. When the teacher ____ in, the students ____.", options: ["came / were talking", "was coming / talked", "comes / are talking", "came / talked"], answer: 0, explanation: "came → الماضي البسيط، were talking → الماضي المستمر." },
+  { type: "mcq", question: "13. They ____ to music when I ____ them.", options: ["were listening / saw", "listened / was seeing", "was listening / see", "listen / saw"], answer: 0, explanation: "كنت سامعهم بيسمعوا موسيقى لما شوفتهم." },
+  { type: "mcq", question: "14. It ____ to snow while we ____ to school.", options: ["started / were going", "was starting / went", "start / go", "was started / were going"], answer: 0, explanation: "بدأت تمطر وإحنا رايحين → started / were going." },
+  { type: "mcq", question: "15. While I ____ homework, my brother ____ music.", options: ["was doing / was listening", "did / listened", "do / listens", "doing / listening"], answer: 0, explanation: "كنت بعمل الواجب وأخويا بيسمع موسيقى → ماضي مستمر في الفعلين." },
+  { type: "mcq", question: "16. The children ____ when the teacher ____ in.", options: ["were laughing / walked", "laughed / was walking", "laugh / walks", "were laugh / walk"], answer: 0, explanation: "الطلاب كانوا بيضحكوا لما المدرس دخل → were laughing / walked." },
+  { type: "mcq", question: "17. She ____ her keys while she ____ home.", options: ["lost / was going", "was losing / went", "lose / goes", "was lose / going"], answer: 0, explanation: "فقدت المفاتيح وهي راجعة → lost / was going." },
+  { type: "mcq", question: "18. While we ____ in the park, it suddenly ____ to rain.", options: ["were walking / began", "walked / was beginning", "were walk / begins", "walk / begins"], answer: 0, explanation: "كنا بنتمشى ولقيها بتمطر → were walking / began." },
+  { type: "mcq", question: "19. When I ____ home, my mom ____ dinner.", options: ["came / was cooking", "was coming / cooked", "came / cooked", "come / was cooking"], answer: 0, explanation: "رجعت البيت لقيت أمي بتطبخ → came / was cooking." },
+  { type: "mcq", question: "20. I ____ when I ____ a strange noise.", options: ["was sleeping / heard", "slept / was hearing", "was sleep / hear", "sleep / heard"], answer: 0, explanation: "كنت نايم لما سمعت صوت غريب." },
+  { type: "mcq", question: "21. While he ____ the car, it suddenly ____.", options: ["was driving / stopped", "drove / was stopping", "drives / stop", "was drove / stopped"], answer: 0, explanation: "كان سايق وفجأة العربية وقفت → was driving / stopped." },
+  { type: "mcq", question: "22. She ____ to music when I ____ her.", options: ["was listening / called", "listened / was calling", "listen / call", "was listen / called"], answer: 0, explanation: "كنت بكلمها وهي بتسمع موسيقى → was listening / called." },
+  { type: "mcq", question: "23. While I ____ breakfast, the doorbell ____.", options: ["was having / rang", "had / was ringing", "was had / rings", "have / rings"], answer: 0, explanation: "كنت بافطر لما الجرس رن → was having / rang." },
+  { type: "mcq", question: "24. When they ____ TV, the power ____.", options: ["were watching / went off", "watched / was going off", "watch / goes off", "was watching / go off"], answer: 0, explanation: "كانوا بيتفرجوا ولقي الكهرباء قطعت." },
+  { type: "mcq", question: "25. I ____ to music when my dad ____ me to stop.", options: ["was listening / told", "listened / was telling", "listen / tells", "was listen / told"], answer: 0, explanation: "كنت بسمع موسيقى وأبويا قال لي أبطل." },
+  { type: "mcq", question: "26. He ____ when I ____ him.", options: ["was running / saw", "ran / was seeing", "runs / see", "was run / saw"], answer: 0, explanation: "كان بيجري لما شوفتُه." },
+  { type: "mcq", question: "27. While we ____ dinner, our friends ____.", options: ["were having / arrived", "had / were arriving", "were have / arrive", "have / arrived"], answer: 0, explanation: "كنا بناكل لما أصحابنا وصلوا." },
+  { type: "mcq", question: "28. The students ____ when the fire alarm ____.", options: ["were studying / went off", "studied / was going off", "was studying / go off", "study / goes off"], answer: 0, explanation: "كانوا بيذاكروا لما جرس الحريق رن." },
+  { type: "mcq", question: "29. I ____ to work when I ____ the accident.", options: ["was driving / saw", "drove / was seeing", "drive / see", "was drive / saw"], answer: 0, explanation: "كنت سايق للشغل وشوفت الحادث." },
+  { type: "mcq", question: "30. While she ____ the floor, she ____ a coin.", options: ["was cleaning / found", "cleaned / was finding", "was clean / find", "clean / found"], answer: 0, explanation: "كانت بتنضف الأرض ولقت عملة." },
+
+  // ---------- Essay Questions (3) ----------
+  { type: "essay", question: "31. Explain the difference between past simple and past continuous with an example.", answer: "Past simple shows a completed action (e.g., I watched TV). Past continuous shows an action in progress (e.g., I was watching TV when he called).", explanation: "الماضي البسيط فعل انتهى، الماضي المستمر فعل كان جاري وقت حدوث الآخر." },
+  { type: "essay", question: "32. Write two sentences showing how past continuous and past simple are used together.", answer: "1. While I was cooking, the phone rang.\n2. They were playing football when it started to rain.", explanation: "الماضي المستمر يصف الفعل الطويل، والبسيط يصف الحدث القصير اللي قطعه." },
+  { type: "essay", question: "33. Why do we often use 'while' and 'when' in sentences with past continuous and past simple?", answer: "'While' introduces the longer action (past continuous), and 'when' introduces the shorter action (past simple).", explanation: "نستخدم while للفعل الطويل، وwhen للفعل القصير اللي بيقاطعه." }
+];
+
+const hardQuestions = [
+  // ---------- Multiple Choice Questions (10) ----------
+  { type: "mcq", question: "1. While I ____ to work, I suddenly ____ that I left my phone at home.", options: ["was driving / realized", "drove / was realizing", "was drive / realize", "drive / realizes"], answer: 0, explanation: "was driving (الفعل المستمر) و realized (الفعل القصير اللي قطعه)." },
+  { type: "mcq", question: "2. They ____ dinner when their guests ____.", options: ["were having / arrived", "had / were arriving", "have / arrive", "were have / arrived"], answer: 0, explanation: "الحدث الطويل (were having)، والقصير (arrived)." },
+  { type: "mcq", question: "3. The lights ____ out while we ____ a movie.", options: ["went / were watching", "were going / watched", "go / watch", "was going / were watched"], answer: 0, explanation: "الأنسب: went out / were watching." },
+  { type: "mcq", question: "4. I ____ the news while I ____ breakfast.", options: ["heard / was having", "was hearing / had", "hear / was have", "was heard / have"], answer: 0, explanation: "كنت بافطر لما سمعت الأخبار." },
+  { type: "mcq", question: "5. When the teacher ____ in, the students ____ quietly.", options: ["came / were sitting", "was coming / sit", "comes / sitting", "came / sat"], answer: 0, explanation: "came (الحدث القصير)، were sitting (الحدث الجاري)." },
+  { type: "mcq", question: "6. He ____ his hand while he ____ dinner.", options: ["cut / was cooking", "was cutting / cooked", "cuts / cook", "was cut / cooking"], answer: 0, explanation: "cut (الفعل القصير)، was cooking (الفعل الجاري)." },
+  { type: "mcq", question: "7. I ____ my notes while the teacher ____ the lesson.", options: ["was writing / was explaining", "wrote / explained", "am writing / explains", "write / was explaining"], answer: 0, explanation: "الفعلان جاريان في نفس الوقت في الماضي." },
+  { type: "mcq", question: "8. They ____ TV when the doorbell ____.", options: ["were watching / rang", "watched / was ringing", "was watching / ringed", "watch / rings"], answer: 0, explanation: "were watching / rang هي الأنسب." },
+  { type: "mcq", question: "9. While the children ____ in the garden, it ____ to rain.", options: ["were playing / began", "played / was beginning", "was playing / began", "play / begins"], answer: 0, explanation: "were playing / began → حدث مستمر وحدث قاطع." },
+  { type: "mcq", question: "10. I ____ asleep while I ____ for the bus.", options: ["fell / was waiting", "was falling / waited", "fall / wait", "fell / wait"], answer: 0, explanation: "fell (بسيط) و was waiting (مستمر)." },
+
+  // ---------- Correction Questions (10) ----------
+  { type: "correction", question: "11. She were reading when I called her.", correct: "was", explanation: "مع She نستخدم was، مش were." },
+  { type: "correction", question: "12. They was watching TV when the power went out.", correct: "were", explanation: "مع They نستخدم were." },
+  { type: "correction", question: "13. I was watch a movie when he arrived.", correct: "watching", explanation: "لازم نضيف ing → was watching." },
+  { type: "correction", question: "14. He was playing football when it rains.", correct: "rained", explanation: "لازم الماضي البسيط للفعل الثاني → rained." },
+  { type: "correction", question: "15. We were studied when the teacher came.", correct: "studying", explanation: "الفعل بعد were بياخد ing → were studying." },
+  { type: "correction", question: "16. While I was sleep, the phone rang.", correct: "sleeping", explanation: "بعد was لازم الفعل + ing → was sleeping." },
+  { type: "correction", question: "17. They were play cards when it started raining.", correct: "playing", explanation: "were + playing هي الصحيحة." },
+  { type: "correction", question: "18. I was walking to school when I meet Ali.", correct: "met", explanation: "الحدث القصير يكون ماضي بسيط → met." },
+  { type: "correction", question: "19. While we was eating, someone knocked at the door.", correct: "were", explanation: "مع we نستخدم were، مش was." },
+  { type: "correction", question: "20. She were listening to music when her mom come in.", correct: "was / came", explanation: "was listening / came → تصحيح الفعلين." },
+
+  // ---------- Fill-in-the-Verb Questions (10) ----------
+  { type: "fill", question: "21. While I ____ (read), my friend ____ (call) me.", explanation: "الفعل الأول مستمر، التاني بسيط." },
+  { type: "fill", question: "22. They ____ (walk) home when it suddenly ____ (start) to rain.", explanation: "حدث جاري وحدث قاطع." },
+  { type: "fill", question: "23. I ____ (sleep) when the alarm ____ (ring).", explanation: "كنت نايم لما المنبه رن." },
+  { type: "fill", question: "24. She ____ (cook) when her brother ____ (arrive).", explanation: "الطبخ مستمر، الوصول حدث بسيط." },
+  { type: "fill", question: "25. We ____ (play) football when it ____ (begin) to rain.", explanation: "اللعب جاري، المطر بدأ." },
+  { type: "fill", question: "26. He ____ (fix) the car while I ____ (clean) the garage.", explanation: "حدثين مستمرين في نفس الوقت." },
+  { type: "fill", question: "27. The teacher ____ (write) on the board when the bell ____ (ring).", explanation: "المدرس كان بيكتب لما الجرس رن." },
+  { type: "fill", question: "28. I ____ (drive) to work when I ____ (see) the accident.", explanation: "كنت سايق وشوفت الحادث." },
+  { type: "fill", question: "29. They ____ (study) when the lights ____ (go) out.", explanation: "الطلاب كانوا بيذاكروا لما النور قطع." },
+  { type: "fill", question: "30. While I ____ (talk) to him, he suddenly ____ (leave).", explanation: "كنت باتكلم معاه وفجأة مشي." }
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------- دالة عرض الأسئلة ----------
+function displayQuestions(containerId, questions) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  questions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    let html = `<h3>${q.question}</h3>`;
+
+    if (q.type === "mcq") {
+      html += `<div class="options">`;
+      q.options.forEach((opt, i) => {
+        html += `
+          <label>
+            <input type="radio" name="q${index}" value="${i}" />
+            ${opt}
+          </label>`;
+      });
+      html += `</div>
+      <button onclick="showAnswer(this, '${q.options[q.answer]}', '${q.explanation}')">عرض الإجابة</button>
+      <div class="answer"></div>`;
+    }
+
+    // ✅ نوع اكمل (fill in the blank)
+    else if (q.type === "fill") {
+      html += `
+        <input type="text" placeholder="اكتب إجابتك هنا" />
+        <button onclick="showAnswer(this, '${q.answer}', '${q.explanation}')">عرض الإجابة</button>
+        <div class="answer"></div>`;
+    }
+
+    // ✅ نوع تصحيح (correct the mistake)
+    else if (q.type === "correct") {
+      html += `
+        <p><strong>الجملة:</strong> ${q.sentence}</p>
+        <input type="text" placeholder="اكتب التصحيح هنا" />
+        <button onclick="showAnswer(this, '${q.answer}', '${q.explanation}')">عرض الإجابة</button>
+        <div class="answer"></div>`;
+    }
+
+    // ✅ نوع مقالي (essay)
+    else if (q.type === "essay") {
+      html += `
+        <textarea rows="3" placeholder="اكتب إجابتك هنا"></textarea>
+        <button onclick="showAnswer(this, '${q.answer}', '${q.explanation}')">عرض الإجابة</button>
+        <div class="answer"></div>`;
+    }
+
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+// ---------- دالة عرض الإجابة ----------
+function showAnswer(btn, correctAnswer, explanation) {
+  const answerDiv = btn.nextElementSibling;
+  answerDiv.style.display = "block";
+  answerDiv.innerHTML = `<p><strong>الإجابة الصحيحة:</strong> ${correctAnswer}</p>
+                         <p><em>${explanation}</em></p>`;
+}
+
+// ---------- استدعاء عرض الأسئلة ----------
+displayQuestions("easyContainer", easyQuestions);
+displayQuestions("mediumContainer", mediumQuestions);
+displayQuestions("hardContainer", hardQuestions);
+
+
+
+
+
+
+    // ---------------- دوال التصحيح -----------------
+    function checkAnswer(name, correctAnswer, resultId) {
+      const selected = document.querySelector(`input[name='${name}']:checked`);
+      const ansDiv = document.getElementById(resultId);
+      if (!selected) {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "red";
+        ansDiv.textContent = "اختر إجابة أولًا!";
+        return;
+      }
+      if (selected.value === correctAnswer) {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "green";
+        ansDiv.textContent = "إجابة صحيحة ✅";
+      } else {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "red";
+        ansDiv.textContent = `❌ الإجابة الصحيحة: ${correctAnswer}`;
+      }
+    }
+
+    function checkText(inputId, correctAnswer, resultId) {
+      const user = document.getElementById(inputId).value.trim();
+      const ansDiv = document.getElementById(resultId);
+      if (user === "") {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "red";
+        ansDiv.textContent = "اكتب إجابتك أولًا!";
+        return;
+      }
+      if (user.toLowerCase() === correctAnswer.toLowerCase()) {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "green";
+        ansDiv.textContent = "إجابة صحيحة ✅";
+      } else {
+        ansDiv.style.display = "block";
+        ansDiv.style.color = "red";
+        ansDiv.textContent = `❌ الصحيحة: ${correctAnswer}`;
+      }
+    }
+
+    // ---------------- تشغيل عند تحميل الصفحة -----------------
+    // لما تضيف المصفوفات الفعلية، شغل الدوال دي:
+     showQuestions("easyContainer", easyQuestions, "mcq");
+     showQuestions("mediumContainer", mediumQuestions, "correct");
+    showQuestions("hardContainer", hardQuestions, "fill");
+  </script>
+</body>
+</html>
